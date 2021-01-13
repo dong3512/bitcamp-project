@@ -5,13 +5,32 @@ package com.eomcs.pms;
 
 public class App {
   public static void main(String[] args) {
+    java.io.InputStream keyboard = System.in;
+    java.util.Scanner keyScan = new java.util.Scanner(keyboard);
     System.out.println("[회원]");
-    System.out.println("번호: 101");
-    System.out.println("이름: 홍길동");
-    System.out.println("이메일: hong@test.com");
-    System.out.println("암호: 1111");
-    System.out.println("사진: hong.png");
-    System.out.println("전화: 1111-2222");
-    System.out.println("가입일: 2020-01-01");
+    System.out.println("번호? ");
+    String num = keyScan.nextLine();
+    System.out.println("이름? ");
+    String name = keyScan.nextLine();
+    System.out.println("이메일? ");
+    String mail = keyScan.nextLine();
+    System.out.println("암호? ");
+    String pw = keyScan.nextLine();
+    System.out.println("사진? ");
+    String picture = keyScan.nextLine();
+    System.out.println("전화번호? ");
+    String hp = keyScan.nextLine();
+
+    java.util.Date today = new java.util.Date();
+    keyScan.close();
+    System.out.println("--------------------------------");
+
+    System.out.printf("번호: %s\n",num);
+    System.out.printf("이름: %s\n",name);
+    System.out.printf("이메일: %s\n",mail);
+    System.out.printf("암호: %s\n",pw);
+    System.out.printf("사진: %s\n",picture);
+    System.out.printf("전화번호: %s\n",hp);
+    System.out.printf("가입일: %s\n",today);
   }
 }
