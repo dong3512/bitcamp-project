@@ -19,6 +19,7 @@ public class Prompt {
   static Date inputDate(String title) {
     return Date.valueOf(inputString(title));
   }
+
   static void close() {
     keyboardScan.close();
   }
