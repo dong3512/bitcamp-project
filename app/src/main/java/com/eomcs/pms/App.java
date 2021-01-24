@@ -10,81 +10,34 @@ public class App {
 
   public static void main(String[] args) {
 
-    // 각 게시판 데이터를 저장할 메모리 준비
-    BoardHandler boardList1 = new BoardHandler();
-    BoardHandler boardList2 = new BoardHandler();
-    BoardHandler boardList3 = new BoardHandler();
-    BoardHandler boardList4 = new BoardHandler();
-    BoardHandler boardList5 = new BoardHandler();
-    BoardHandler boardList6 = new BoardHandler();
-
-    // 각 회원 목록 데이터를 저장할 메모리 준비
-    MemberHandler memberList = new MemberHandler();
-
-    // 각 프로젝트 목록 데이터를 저장할 메모리 준비
-    ProjectHandler projectList = new ProjectHandler();
-
-    // 각 작업 목록 데이터를 저장할 메모리 준비
-    TaskHandler taskList = new TaskHandler();
-
     loop:
       while (true) {
-        String command = com.eomcs.util.Prompt.inputString("명령> ");
+        String command = Prompt.inputString("명령> ");
 
         switch (command) {
           case "/member/add":
-            memberList.add();
+            MemberHandler.add();
             break;
           case "/member/list":
-            memberList.list();
+            MemberHandler.list();
             break;
           case "/project/add":
-            projectList.add(memberList);
+            ProjectHandler.add();
             break;
           case "/project/list":
-            projectList.list();
+            ProjectHandler.list();
             break;
           case "/task/add":
-            taskList.add(memberList);
+            TaskHandler.add();
             break;
           case "/task/list":
-            taskList.list();
+            TaskHandler.list();
             break;
           case "/board/add":
-            boardList1.add();
+            BoardHandler.add();
             break;
           case "/board/list":
-            boardList1.list();
-            break;
-          case "/board2/add":
-            boardList2.add();
-            break;
-          case "/board2/list":
-            boardList2.list();
-            break;
-          case "/board3/add":
-            boardList3.add();
-            break;
-          case "/board3/list":
-            boardList3.list();
-            break;
-          case "/board4/add":
-            boardList4.add();
-            break;
-          case "/board4/list":
-            boardList4.list();
-            break;
-          case "/board5/add":
-            boardList5.add();
-            break;
-          case "/board5/list":
-            boardList5.list();
-            break;
-          case "/board6/add":
-            boardList6.add();
-            break;
-          case "/board6/list":
-            boardList6.list();
+            BoardHandler.list();
             break;
           case "quit":
           case "exit":

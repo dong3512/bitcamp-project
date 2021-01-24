@@ -1,16 +1,23 @@
 package com.eomcs.pms.handler;
 
-import com.eomcs.pms.domain.Task;
+import java.sql.Date;
 import com.eomcs.util.Prompt;
 
 public class TaskHandler {
 
+  static class Task {
+    int no;
+    String content;
+    Date deadline;
+    String owner;
+    int status;
+  }
+
   static final int LENGTH = 100;
+  static Task[] tasks = new Task[LENGTH];
+  static int size = 0;
 
-  Task[] tasks = new Task[LENGTH];
-  int size = 0;
-
-  public  void add(MemberHandler memberList) {
+  public static void add() {
     System.out.println("[작업 등록]");
 
     Task t = new Task();
@@ -19,27 +26,27 @@ public class TaskHandler {
     t.deadline = Prompt.inputDate("마감일? ");
     t.status = Prompt.inputInt("상태?\n0: 신규\n1: 진행중\n2: 완료\n> ");
 
-    while (true) {
+    while(true) {
       String name = Prompt.inputString("담당자?(취소: 빈 문자열) ");
-      if (name.length() == 0) {
-        System.out.println("작업 등록을 취소합니다.");
+      if(name.length() == 0) {
+        System.out.println("작업등록을 취소합니다.");
         return;
-      } else if (memberList.exist(name)) {
+      }else if(MemberHandler.exist(name)) {
         t.owner = name;
         break;
-      } else {
+      }else {
         System.out.println("등록된 회원이 아닙니다.");
       }
     }
 
-    this.tasks[this.size++] = t;
+    tasks[size++] = t;
   }
 
-  public void list() {
+  public static void list() {
     System.out.println("[작업 목록]");
 
-    for (int i = 0; i < this.size; i++) {
-      Task t = this.tasks[i];
+    for (int i = 0; i < size; i++) {
+      Task t = tasks[i];
 
       String stateLabel = null;
       switch (t.status) {
