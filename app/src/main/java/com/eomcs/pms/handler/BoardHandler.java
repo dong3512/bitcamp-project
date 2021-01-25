@@ -1,25 +1,20 @@
 package com.eomcs.pms.handler;
 
 import java.sql.Date;
+import com.eomcs.pms.domain.Board;
 import com.eomcs.util.Prompt;
 
 public class BoardHandler {
 
-  static class Board{
-    int no;
-    String title;
-    String content;
-    String writer;
-    Date registeredDate;
-    int viewCount;
-  }
+  // 공동으로 사용하는 값은 스태틱 필드로 선언한다.
+  static final int LENGTH = 100;
 
-  static final int LENGTH = 100 ;
-  static Board[] boards = new Board[LENGTH];
-  static int size = 0;
+  // 개별적으로 관리해야 하는 값은 인스턴스 필드로 선언한다.
+  Board[] boards = new Board[LENGTH];   
+  int size = 0;
 
-  public static void add() {
-    System.out.println("게시글 등록");
+  public void add() {
+    System.out.println("[게시글 등록]");
 
     Board b = new Board();
 
@@ -28,18 +23,31 @@ public class BoardHandler {
     b.content = Prompt.inputString("내용? ");
     b.writer = Prompt.inputString("작성자? ");
     b.registeredDate = new Date(System.currentTimeMillis());
-    boards[size++] = b ;
+
+    this.boards[this.size++] = b;
 
     System.out.println("게시글을 등록하였습니다.");
   }
 
-  public static void list() {
+  public void list() {
     System.out.println("[게시글 목록]");
 
-    for(int i = 0 ; i < size;i ++) {
-      Board b = boards[i];
-      System.out.printf("%d, %s, %s, %s, %s\n"
-          ,b.no , b.title, b.registeredDate, b.writer, b.viewCount);
+    for (int i = 0; i < this.size; i++) {
+      Board b = this.boards[i];
+      // 번호, 제목, 등록일, 작성자, 조회수, 좋아요
+      System.out.printf("%d, %s, %s, %s, %d, %d\n", 
+          b.no, 
+          b.title, 
+          b.registeredDate, 
+          b.writer, 
+          b.viewCount,
+          b.like);
     }
   }
 }
+
+
+
+
+
+
