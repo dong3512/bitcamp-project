@@ -18,13 +18,10 @@ public class App {
     BoardHandler boardList5 = new BoardHandler();
     BoardHandler boardList6 = new BoardHandler();
 
-    // 각 회원 목록 데이터를 저장할 메모리 준비
     MemberHandler memberList = new MemberHandler();
 
-    // 각 프로젝트 목록 데이터를 저장할 메모리 준비
     ProjectHandler projectList = new ProjectHandler();
 
-    // 각 작업 목록 데이터를 저장할 메모리 준비
     TaskHandler taskList = new TaskHandler();
 
     loop:

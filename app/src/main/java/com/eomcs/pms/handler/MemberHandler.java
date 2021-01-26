@@ -5,16 +5,23 @@ import com.eomcs.util.Prompt;
 
 public class MemberHandler {
 
-  static final int LENGTH = 100;
+  // 회원 정보를 저장할 메모리의 설계도
+  // - 각 항목의 데이터를 저장할 변수를 선언한다.
+  // - 이 변수를 "필드(field)"라고 부른다.
+  //
 
+  static final int LENGTH = 100;
   Member[] members = new Member[LENGTH];  // 레퍼런스 배열 준비  
   int size = 0;
 
   public void add() {
     System.out.println("[회원 등록]");
 
+
+    // 1) 회원 정보를 담을 메모리를 준비한다.
     Member m = new Member();
 
+    // 2) 사용자가 입력한 값을 Member 인스턴스에 저장한다.
     m.no = Prompt.inputInt("번호? ");
     m.name = Prompt.inputString("이름? ");
     m.email = Prompt.inputString("이메일? ");
@@ -23,7 +30,13 @@ public class MemberHandler {
     m.tel = Prompt.inputString("전화? ");
     m.registeredDate = new java.sql.Date(System.currentTimeMillis());
 
-    this.members[this.size++] = m;
+    // 3) 사용자의 정보가 저장된 인스턴스 주소를 레퍼런스 배열에 보관한다.
+    members[size++] = m;
+    // 위 문장은 컴파일할 때 다음 문장으로 변경된다.
+    //    int temp = size;
+    //    size++;
+    //    members[temp] = m;
+
   }
 
   public void list() {
