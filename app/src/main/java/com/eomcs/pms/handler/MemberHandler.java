@@ -1,6 +1,6 @@
 package com.eomcs.pms.handler;
 
-import com.eomcs.pms.domain.Member;
+import java.sql.Date;
 import com.eomcs.util.Prompt;
 
 public class MemberHandler {
@@ -9,14 +9,22 @@ public class MemberHandler {
   // - 각 항목의 데이터를 저장할 변수를 선언한다.
   // - 이 변수를 "필드(field)"라고 부른다.
   //
+  static class Member {
+    int no;
+    String name;
+    String email;
+    String password;
+    String photo;
+    String tel;
+    Date registeredDate;  
+  }
 
   static final int LENGTH = 100;
-  Member[] members = new Member[LENGTH];  // 레퍼런스 배열 준비  
-  int size = 0;
+  static Member[] members = new Member[LENGTH];  // 레퍼런스 배열 준비  
+  static int size = 0;
 
-  public void add() {
+  public static void add() {
     System.out.println("[회원 등록]");
-
 
     // 1) 회원 정보를 담을 메모리를 준비한다.
     Member m = new Member();
@@ -39,20 +47,20 @@ public class MemberHandler {
 
   }
 
-  public void list() {
+  public static void list() {
     System.out.println("[회원 목록]");
 
-    for (int i = 0; i < this.size; i++) {
-      Member m = this.members[i];
+    for (int i = 0; i < size; i++) {
+      Member m = members[i];
       // 번호, 이름, 이메일, 전화, 가입일
       System.out.printf("%d, %s, %s, %s, %s\n", // 출력 형식 지정
           m.no, m.name, m.email, m.tel, m.registeredDate);
     }
   }
 
-  public boolean exist(String name) {
-    for (int i = 0; i < this.size; i++) {
-      if (name.equals(this.members[i].name)) {
+  public static boolean exist(String name) {
+    for (int i = 0; i < size; i++) {
+      if (name.equals(members[i].name)) {
         return true;
       }
     }
