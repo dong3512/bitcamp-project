@@ -1,23 +1,22 @@
 package com.eomcs.pms.handler;
 
-import java.sql.Date;
+import com.eomcs.pms.domain.Task;
 import com.eomcs.util.Prompt;
 
 public class TaskHandler {
 
-  static class Task {
-    int no;
-    String content;
-    Date deadline;
-    String owner;
-    int status;
+  static final int LENGTH = 100;
+
+  public MemberHandler memberList;
+
+  Task[] tasks = new Task[LENGTH];
+  int size = 0;
+
+  public TaskHandler(MemberHandler memberHandler) {
+    this.memberList = memberHandler;
   }
 
-  static final int LENGTH = 100;
-  static Task[] tasks = new Task[LENGTH];
-  static int size = 0;
-
-  public static void add() {
+  public void add() {
     System.out.println("[작업 등록]");
 
     Task t = new Task();
@@ -31,7 +30,7 @@ public class TaskHandler {
       if (name.length() == 0) {
         System.out.println("작업 등록을 취소합니다.");
         return;
-      } else if (MemberHandler.exist(name)) {
+      } else if (this.memberList.exist(name)) {
         t.owner = name;
         break;
       } else {
@@ -39,14 +38,14 @@ public class TaskHandler {
       }
     }
 
-    tasks[size++] = t;
+    this.tasks[this.size++] = t;
   }
 
-  public static void list() {
+  public void list() {
     System.out.println("[작업 목록]");
 
-    for (int i = 0; i < size; i++) {
-      Task t = tasks[i];
+    for (int i = 0; i < this.size; i++) {
+      Task t = this.tasks[i];
 
       String stateLabel = null;
       switch (t.status) {
