@@ -7,13 +7,13 @@ public class TaskHandler {
 
   static final int LENGTH = 100;
 
-  public MemberHandler memberList;
+  MemberHandler memberList;
 
   Task[] tasks = new Task[LENGTH];
   int size = 0;
 
   public TaskHandler(MemberHandler memberHandler) {
-    this.memberList = memberHandler;
+    memberList = memberHandler;
   }
 
   public void add() {
@@ -30,7 +30,7 @@ public class TaskHandler {
       if (name.length() == 0) {
         System.out.println("작업 등록을 취소합니다.");
         return;
-      } else if (this.memberList.exist(name)) {
+      } else if (memberList.exist(name)) {
         t.owner = name;
         break;
       } else {

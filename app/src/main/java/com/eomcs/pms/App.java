@@ -51,15 +51,6 @@ public class App {
           case "/board/list":
             boardList.list();
             break;
-          case "/board/detail":
-            boardList.detail();
-            break;
-          case "/board/delete":
-            boardList.delete();
-            break;
-          case "/board/update":
-            boardList.update();
-            break;
           case "quit":
           case "exit":
             System.out.println("안녕!");
