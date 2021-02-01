@@ -10,17 +10,11 @@ public class App {
 
   public static void main(String[] args) {
 
-    // 각 게시판 데이터를 저장할 메모리 준비
     BoardHandler boardList = new BoardHandler();
-
-    // 각 회원 목록 데이터를 저장할 메모리 준비
     MemberHandler memberList = new MemberHandler();
-
-    // 각 프로젝트 목록 데이터를 저장할 메모리 준비
     ProjectHandler projectList = new ProjectHandler(memberList);
-
-    // 각 작업 목록 데이터를 저장할 메모리 준비
     TaskHandler taskList = new TaskHandler(memberList);
+
 
     loop:
       while (true) {
@@ -33,11 +27,29 @@ public class App {
           case "/member/list":
             memberList.list();
             break;
+          case "/member/detail":
+            memberList.detail();
+            break;  
+          case "/member/update":
+            memberList.update();
+            break; 
+          case "/member/delete":
+            memberList.delete();
+            break;
           case "/project/add":
             projectList.add();
             break;
           case "/project/list":
             projectList.list();
+            break;
+          case "/project/detail": 
+            projectList.detail();
+            break;  
+          case "/project/update":
+            projectList.update();
+            break; 
+          case "/project/delete":
+            projectList.delete();
             break;
           case "/task/add":
             taskList.add();
@@ -45,11 +57,29 @@ public class App {
           case "/task/list":
             taskList.list();
             break;
+          case "/task/detail": 
+            taskList.detail();
+            break;  
+          case "/task/update":
+            taskList.update();
+            break; 
+          case "/task/delete":
+            taskList.delete();
+            break;
           case "/board/add":
             boardList.add();
             break;
           case "/board/list":
             boardList.list();
+            break;
+          case "/board/detail":
+            boardList.detail();
+            break;  
+          case "/board/update":
+            boardList.update();
+            break; 
+          case "/board/delete":
+            boardList.delete();
             break;
           case "quit":
           case "exit":
