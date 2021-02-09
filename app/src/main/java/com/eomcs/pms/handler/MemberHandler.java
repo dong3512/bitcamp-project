@@ -1,6 +1,7 @@
 package com.eomcs.pms.handler;
 
 import com.eomcs.pms.domain.Member;
+import com.eomcs.util.Iterator;
 import com.eomcs.util.List;
 import com.eomcs.util.Prompt;
 
@@ -30,13 +31,13 @@ public class MemberHandler {
     System.out.println("회원을 등록하였습니다.");
   }
 
-  public void list() {
+  public void list() throws CloneNotSupportedException{
     System.out.println("[회원 목록]");
 
-    Object[] list = memberList.toArray();
-    for (Object obj : list) {
+    Iterator iterator = memberList.iterator();
 
-      Member m = (Member) obj;
+    while (iterator.hasNext()) {
+      Member m = (Member) iterator.next();
       // 번호, 이름, 이메일, 전화, 가입일
       System.out.printf("%d, %s, %s, %s, %s\n", // 출력 형식 지정
           m.getNo(), m.getName(), m.getEmail(), m.getTel(), m.getRegisteredDate());
@@ -121,7 +122,7 @@ public class MemberHandler {
       if (name.length() == 0) {
         return null;
       } 
-      if (this.memberList.exist(name)) {
+      if (findByName(name) != null) {
         return name;
       }
       System.out.println("등록된 회원이 아닙니다.");
@@ -143,11 +144,22 @@ public class MemberHandler {
     }
   }
 
-  private Member findByNo( int memberNo) {
+  private Member findByNo(int boardNo) {
     Object[] list = memberList.toArray();
     for (Object obj : list) {
       Member m = (Member) obj;
-      if(m.getNo() == memberNo) {
+      if (m.getNo() == boardNo) {
+        return m;
+      }
+    }
+    return null;
+  }
+
+  private Member findByName(String name) {
+    Object[] list = memberList.toArray();
+    for (Object obj : list) {
+      Member m = (Member) obj;
+      if (m.getName().equals(name)) {
         return m;
       }
     }

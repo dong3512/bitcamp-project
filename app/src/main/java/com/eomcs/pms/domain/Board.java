@@ -11,16 +11,13 @@ public class Board {
   private int viewCount;
   private int like;
 
+
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((content == null) ? 0 : content.hashCode());
-    result = prime * result + like;
     result = prime * result + no;
-    result = prime * result + ((registeredDate == null) ? 0 : registeredDate.hashCode());
     result = prime * result + ((title == null) ? 0 : title.hashCode());
-    result = prime * result + viewCount;
     result = prime * result + ((writer == null) ? 0 : writer.hashCode());
     return result;
   }
@@ -34,26 +31,12 @@ public class Board {
     if (getClass() != obj.getClass())
       return false;
     Board other = (Board) obj;
-    if (content == null) {
-      if (other.content != null)
-        return false;
-    } else if (!content.equals(other.content))
-      return false;
-    if (like != other.like)
-      return false;
     if (no != other.no)
-      return false;
-    if (registeredDate == null) {
-      if (other.registeredDate != null)
-        return false;
-    } else if (!registeredDate.equals(other.registeredDate))
       return false;
     if (title == null) {
       if (other.title != null)
         return false;
     } else if (!title.equals(other.title))
-      return false;
-    if (viewCount != other.viewCount)
       return false;
     if (writer == null) {
       if (other.writer != null)

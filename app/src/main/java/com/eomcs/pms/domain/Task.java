@@ -18,6 +18,7 @@ public class Task {
     result = prime * result + no;
     return result;
   }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj)
@@ -41,6 +42,7 @@ public class Task {
       return false;
     return true;
   }
+
   public int getNo() {
     return no;
   }

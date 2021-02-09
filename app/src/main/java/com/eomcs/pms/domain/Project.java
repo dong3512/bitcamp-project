@@ -21,6 +21,7 @@ public class Project {
     result = prime * result + ((title == null) ? 0 : title.hashCode());
     return result;
   }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj)
@@ -49,7 +50,6 @@ public class Project {
       return false;
     return true;
   }
-
 
   public int getNo() {
     return no;

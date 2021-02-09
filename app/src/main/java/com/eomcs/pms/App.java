@@ -4,11 +4,19 @@ import com.eomcs.pms.handler.BoardHandler;
 import com.eomcs.pms.handler.MemberHandler;
 import com.eomcs.pms.handler.ProjectHandler;
 import com.eomcs.pms.handler.TaskHandler;
+import com.eomcs.util.Iterator;
 import com.eomcs.util.Prompt;
+import com.eomcs.util.Queue;
+import com.eomcs.util.Stack;
 
 public class App {
 
-  public static void main(String[] args) {
+  // 사용자가 입력한 명령을 저장할 컬렉션 객체 준비
+  static Stack commandStack = new Stack();
+  static Queue commandQueue = new Queue();
+
+
+  public static void main(String[] args) throws CloneNotSupportedException {
 
     BoardHandler boardHandler = new BoardHandler();
     MemberHandler memberHandler = new MemberHandler();
@@ -18,6 +26,13 @@ public class App {
     loop:
       while (true) {
         String command = com.eomcs.util.Prompt.inputString("명령> ");
+
+        if (command.length() == 0) // 사용자가 빈 문자열을 입력하면 다시 입력하도록 요구한다.
+          continue;
+
+        // 사용자가 입력한 명령을 보관해둔다.
+        commandStack.push(command);
+        commandQueue.offer(command);
 
         switch (command) {
           case "/member/add":
@@ -80,6 +95,12 @@ public class App {
           case "/board/delete":
             boardHandler.delete();
             break;
+          case "history":
+            printCommandHistory(commandStack.iterator());
+            break;
+          case "history2":   // <== history2 명령 추가
+            printCommandHistory(commandQueue.iterator());
+            break;
           case "quit":
           case "exit":
             System.out.println("안녕!");
@@ -92,4 +113,19 @@ public class App {
 
     Prompt.close();
   }
+
+  static void printCommandHistory(Iterator iterator) {
+
+    int count = 0;
+    while (iterator.hasNext()) {
+      System.out.println(iterator.next());
+      if ((++count % 5) == 0) {
+        String input = Prompt.inputString(": ");
+        if (input.equalsIgnoreCase("q")) {
+          break;
+        }
+      }
+    }
+  }
+
 }

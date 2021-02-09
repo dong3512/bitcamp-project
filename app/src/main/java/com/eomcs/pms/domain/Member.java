@@ -20,6 +20,7 @@ public class Member {
     result = prime * result + no;
     return result;
   }
+
   @Override
   public boolean equals(Object obj) {
     if (this == obj)
@@ -43,6 +44,7 @@ public class Member {
       return false;
     return true;
   }
+
   public int getNo() {
     return no;
   }

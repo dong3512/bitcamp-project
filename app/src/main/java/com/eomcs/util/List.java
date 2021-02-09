@@ -1,12 +1,10 @@
 package com.eomcs.util;
 
-import com.eomcs.pms.domain.Board;
-
 public class List {
 
   private Node first;
   private Node last;
-  private int size = 0;  
+  protected int size = 0;  
 
   public void add(Object obj) {
     Node node = new Node(obj);
@@ -44,7 +42,7 @@ public class List {
     int count = 0;
     Node cursor = first;
     while (cursor != null) {
-      if(index == count++) {
+      if (index == count++) {
         return cursor.obj;
       }
       cursor = cursor.next;
@@ -80,7 +78,6 @@ public class List {
     return false;
   }
 
-
   public Object delete(int index) {
     if (index < 0 || index >= this.size) {
       return null;
@@ -91,7 +88,7 @@ public class List {
     Node cursor = first;
     while (cursor != null) {
       if (index == count++) {
-        deleted = cursor.obj;
+        deleted = cursor.obj; // 삭제될 항목을 보관해 둔다.
         this.size--;
         if (first == last) {
           first = last = null;
@@ -118,13 +115,16 @@ public class List {
 
   public int indexOf(Object obj) {
     Object[] list = this.toArray();
-    for ( int i = 0; i < list.length; i++) {
-      Board b = (Board) list[i];
+    for (int i = 0; i < list.length; i++) {
       if (list[i].equals(obj)) {
         return i;
       }
     }
     return -1;
+  }
+
+  public int size() {
+    return this.size;
   }
 
   static class Node {
@@ -139,4 +139,28 @@ public class List {
       this.obj = obj;
     }
   }
+
+  interface X {
+    void m();
+  }
+
+  public Iterator iterator() throws CloneNotSupportedException {
+
+    return new Iterator() {
+
+      int cursor = 0;
+
+      @Override
+      public boolean hasNext() {
+        return cursor < List.this.size();
+      }
+
+      @Override
+      public Object next() {
+        return List.this.get(cursor++);
+      }
+    };
+
+  }
+
 }
