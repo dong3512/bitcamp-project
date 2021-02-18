@@ -1,14 +1,14 @@
 package com.eomcs.pms.handler;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Iterator;
 import com.eomcs.pms.domain.Board;
-import com.eomcs.util.Iterator;
-import com.eomcs.util.List;
 import com.eomcs.util.Prompt;
 
-public class BoardHandler {
+public class BoardListHandler {
 
-  private List<Board> boardList = new List<>();
+  private ArrayList<Board> boardList = new ArrayList<>();
 
   public void add() {
     System.out.println("[게시글 등록]");
@@ -29,13 +29,14 @@ public class BoardHandler {
   public void list() throws CloneNotSupportedException {
     System.out.println("[게시글 목록]");
 
-    // 방법1)
-    //   Board[] arr = new Board[boardList.size()];
-    //      boardList.toArray(arr);
+    // 방법1) 
+    //    Board[] arr = new Board[boardList.size()];
+    //    boardList.toArray(arr);
+
+    // 방법2)
     //    Board[] arr = boardList.toArray(new Board[boardList.size()]);
     //
-    //    for(Board b : arr) {
-    //      // 번호, 제목, 등록일, 작성자, 조회수, 좋아요
+    //    for (Board b : arr) {
     //      System.out.printf("%d, %s, %s, %s, %d, %d\n", 
     //          b.getNo(), 
     //          b.getTitle(), 
@@ -44,6 +45,8 @@ public class BoardHandler {
     //          b.getViewCount(),
     //          b.getLike());
     //    }
+
+    // Iterator 사용하여 데이터 조회하기
     Iterator<Board> iterator = boardList.iterator();
 
     while (iterator.hasNext()) {
@@ -119,7 +122,7 @@ public class BoardHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) ");
 
     if (input.equalsIgnoreCase("Y")) {
-      boardList.delete(board); // 오버로딩한 메서드를 사용하여 삭제한다.
+      boardList.remove(board); 
 
       System.out.println("게시글을 삭제하였습니다.");
 
@@ -130,8 +133,8 @@ public class BoardHandler {
   }
 
   private Board findByNo(int boardNo) {
-    Board[] arr = boardList.toArray(new Board[0]);
-    for (Board b : arr) {
+    Board[] list = boardList.toArray(new Board[0]);
+    for (Board b : list) {
       if (b.getNo() == boardNo) {
         return b;
       }

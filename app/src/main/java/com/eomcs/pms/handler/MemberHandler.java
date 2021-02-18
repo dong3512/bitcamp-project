@@ -1,17 +1,13 @@
 package com.eomcs.pms.handler;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import com.eomcs.pms.domain.Member;
-import com.eomcs.util.Iterator;
-import com.eomcs.util.List;
 import com.eomcs.util.Prompt;
 
 public class MemberHandler {
 
-  private List<Member> memberList = new List<>();
-
-  public List<Member> getMemberList() {
-    return this.memberList;
-  }
+  private ArrayList<Member> memberList = new ArrayList<>();
 
   public void add() {
     System.out.println("[회원 등록]");
@@ -31,15 +27,14 @@ public class MemberHandler {
     System.out.println("회원을 등록하였습니다.");
   }
 
-  public void list() throws CloneNotSupportedException{
+  public void list() throws CloneNotSupportedException {
     System.out.println("[회원 목록]");
 
     Iterator<Member> iterator = memberList.iterator();
 
     while (iterator.hasNext()) {
       Member m = iterator.next();
-      // 번호, 이름, 이메일, 전화, 가입일
-      System.out.printf("%d, %s, %s, %s, %s\n", // 출력 형식 지정
+      System.out.printf("%d, %s, %s, %s, %s\n",
           m.getNo(), m.getName(), m.getEmail(), m.getTel(), m.getRegisteredDate());
     }
   }
@@ -107,7 +102,7 @@ public class MemberHandler {
     String input = Prompt.inputString("정말 삭제하시겠습니까?(y/N) ");
 
     if (input.equalsIgnoreCase("Y")) {
-      memberList.delete(member);
+      memberList.remove(member);
       System.out.println("회원을 삭제하였습니다.");
 
     } else {
