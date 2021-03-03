@@ -1,15 +1,16 @@
 package com.eomcs.pms;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import com.eomcs.context.ApplicationContextListener;
-import com.eomcs.listener.AppListener;
-import com.eomcs.listener.FileListener;
 import com.eomcs.pms.domain.Board;
 import com.eomcs.pms.domain.Member;
 import com.eomcs.pms.domain.Project;
@@ -38,44 +39,37 @@ import com.eomcs.pms.handler.TaskDeleteHandler;
 import com.eomcs.pms.handler.TaskDetailHandler;
 import com.eomcs.pms.handler.TaskListHandler;
 import com.eomcs.pms.handler.TaskUpdateHandler;
+import com.eomcs.util.CsvObject;
+import com.eomcs.util.ObjectFactory;
 import com.eomcs.util.Prompt;
 
-public class App {
-
-  List<ApplicationContextListener> listeners = new ArrayList<>();
+public class App01 {
 
   // 사용자가 입력한 명령을 저장할 컬렉션 객체 준비
-  ArrayDeque<String> commandStack = new ArrayDeque<>();
-  LinkedList<String> commandQueue = new LinkedList<>();
+  static ArrayDeque<String> commandStack = new ArrayDeque<>();
+  static LinkedList<String> commandQueue = new LinkedList<>();
 
-  Map<String,Object> appContext = new HashMap<>();
+  // VO 를 저장할 컬렉션 객체
+  static ArrayList<Board> boardList = new ArrayList<>();
+  static ArrayList<Member> memberList = new ArrayList<>();
+  static LinkedList<Project> projectList = new LinkedList<>();
+  static LinkedList<Task> taskList = new LinkedList<>();
+
+  // 데이터 파일 정보
+  static File boardFile = new File("boards.csv");
+  static File memberFile = new File("members.csv");
+  static File projectFile = new File("projects.csv");
+  static File taskFile = new File("tasks.csv");
 
   public static void main(String[] args) {
-    App app = new App();
 
-    app.addApplicationContextListener(new AppListener());
-    app.addApplicationContextListener(new FileListener());
-
-    app.service();
-  }
-
-  public void addApplicationContextListener(ApplicationContextListener listener) {
-    listeners.add(listener);
-  }
-
-  public void removeApplicationContextListener(ApplicationContextListener listener) {
-    listeners.remove(listener);
-  }
-
-  public void service() {
-
-    notifyOnServiceStarted();
 
     // 파일에서 데이터를 읽어온다.(데이터 로딩)
-    List<Board> boardList = (List<Board>) appContext.get("boardList");
-    List<Member> memberList = (List<Member>) appContext.get("memberList");
-    List<Project> projectList = (List<Project>) appContext.get("projectList");
-    List<Task> taskList = (List<Task>) appContext.get("taskList");
+    loadObjects(boardFile, boardList, Board::valueOfCsv);
+    loadObjects(memberFile, memberList, Member::valueOfCsv);
+    loadObjects(projectFile, projectList, Project::valueOfCsv);
+    loadObjects(taskFile, taskList, Task::valueOfCsv);
+
     // 사용자 명령을 처리하는 객체를 맵에 보관한다.
     HashMap<String,Command> commandMap = new HashMap<>();
 
@@ -151,22 +145,15 @@ public class App {
         System.out.println(); // 이전 명령의 실행을 구분하기 위해 빈 줄 출력
       }
 
+    // 게시글 데이터를 파일로 출력한다.
+    saveObjects(boardFile, boardList);
+    saveObjects(memberFile, memberList);
+    saveObjects(projectFile, projectList);
+    saveObjects(taskFile, taskList);
+
     Prompt.close();
-
-    notifyOnServiceStopped();
   }
 
-  private void notifyOnServiceStarted() {
-    for (ApplicationContextListener listener : listeners) {
-      listener.contextInitialized(appContext);
-    }
-  }
-
-  private void notifyOnServiceStopped() {
-    for (ApplicationContextListener listener : listeners) {
-      listener.contextDestroyed(appContext);
-    }
-  }
   static void printCommandHistory(Iterator<String> iterator) {
     int count = 0;
     while (iterator.hasNext()) {
@@ -180,5 +167,29 @@ public class App {
     }
   }
 
+  static <T> void loadObjects(File file, List<T> list, ObjectFactory<T> objFactory) {
+    try (BufferedReader in = new BufferedReader(new FileReader(file))) {
+      String csvStr = null;
+      while ((csvStr = in.readLine()) != null) {
+        list.add(objFactory.create(csvStr));
+      }
+      System.out.printf("%s 파일 데이터 로딩!\n", file.getName());
+
+    } catch (Exception e) {
+      System.out.printf("%s 파일 데이터 로딩 중 오류 발생!\n", file.getName());
+    }
+  }
+
+  static <T extends CsvObject> void saveObjects(File file, List<T> list) {
+    try (BufferedWriter out = new BufferedWriter(new FileWriter(file))) {
+      for (CsvObject csvObj : list) {
+        out.write(csvObj.toCsvString() + "\n");
+      }
+      System.out.printf("파일 %s 데이터 저장!\n", file.getName());
+
+    } catch (Exception e) {
+      System.out.printf("파일 %s에 데이터를 저장하는 중에 오류 발생!\n", file.getName());
+    }
+  }
 
 }
